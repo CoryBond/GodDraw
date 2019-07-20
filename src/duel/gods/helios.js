@@ -1,4 +1,4 @@
-export default class Bullet {
+export default class Helios {
   constructor(name, level) {
     this.color = "white";
     this.hitBox = {

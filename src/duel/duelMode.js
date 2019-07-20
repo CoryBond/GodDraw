@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import God from "./God";
-import Protagonist from "./Protagonist";
-import { randomNumBetweenExcluding } from "./helpers";
+
+//import God from "./God";
+import Protagonist from "./protagonists/mainProtag";
+import Bullet from "./projectiles/bullet";
 
 const KEY = {
   LEFT: 37,
@@ -15,35 +16,48 @@ const KEY = {
 };
 
 class GodDrawDuel extends Component {
-  handleResize(value, e) {
-    this.setState({
-      screen: {
-        width: window.innerWidth,
-        height: window.innerHeight
-      }
-    });
-  }
-
-  componentDidMount() {
-    window.addEventListener("keyup", this.handleKeys.bind(this, false));
+  componentDidMount = () => {
+    /*window.addEventListener("keyup", this.handleKeys.bind(this, false));
     window.addEventListener("keydown", this.handleKeys.bind(this, true));
-    window.addEventListener("resize", this.handleResize.bind(this, false));
+    window.addEventListener("resize", this.handleResize.bind(this, false));*/
 
-    const context = this.refs.canvas.getContext("2d");
-  }
+    this.context = this.refs.canvas.getContext("2d");
+    this.context.fillStyle = "black";
+    this.context.fillRect(
+      0,
+      0,
+      this.refs.canvas.width,
+      this.refs.canvas.height
+    );
 
-  componentWillUnmount() {
-    window.removeEventListener("keyup", this.handleKeys);
+    this.entities = [new Bullet()];
+    this.updateEntities();
+  };
+
+  componentWillUnmount = () => {
+    /*window.removeEventListener("keyup", this.handleKeys);
     window.removeEventListener("keydown", this.handleKeys);
-    window.removeEventListener("resize", this.handleResize);
-  }
+    window.removeEventListener("resize", this.handleResize);*/
+  };
+
+  updateEntities = () => {
+    this.entities.forEach(entity => {
+      this.context.fillStyle = entity.color;
+      this.context.fillRect(
+        entity.position.x,
+        entity.position.y,
+        entity.hitBox.width,
+        entity.hitBox.height
+      );
+    });
+  };
 
   render() {
-    state.duelScreen.entities.forEach(entity => {
-      ctx.fillStyle = rect.color;
-      ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
-    });
-    return <canvas ref="duelScreen" />;
+    return (
+      <div style={{ backgroundColor: "black", width: "100%", height: "100%" }}>
+        <canvas style={{ width: "100%", height: "100%" }} ref="canvas" />
+      </div>
+    );
   }
 }
 

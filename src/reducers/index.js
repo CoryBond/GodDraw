@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import duelReducers from "./duelReducers";
+import projectileReducer from "./projectileReducer";
 
 export default combineReducers({
-  duelReducers
+  duelScreen: {
+    projectiles: projectileReducer
+  }
 });
