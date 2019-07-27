@@ -17,7 +17,6 @@ const KEY = {
   SPACE: 32
 };
 
-let context = null;
 const CANVAS_WIDTH = 840;
 const CANVAS_HEIGHT = 860;
 const FRAMES_PER_MILLISECOND = 17;
@@ -29,7 +28,7 @@ class GodDrawDuel extends Component {
     window.addEventListener("resize", this.handleResize.bind(this, false));*/
 
     this.test = "test";
-    context = this.refs.canvas.getContext("2d");
+    const context = this.refs.canvas.getContext("2d");
     context.fillStyle = "black";
     context.fillRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
 
@@ -57,7 +56,9 @@ class GodDrawDuel extends Component {
   };
 
   updateEntities = () => {
-    if (context) {
+    if (this.refs.canvas) {
+      const context = this.refs.canvas.getContext("2d");
+
       context.clearRect(0, 0, 840, 860);
       const elementsOffScreen = new Set();
       this.props.projectiles.forEach((entity, index) => {

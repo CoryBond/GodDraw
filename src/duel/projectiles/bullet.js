@@ -4,8 +4,8 @@ export default class Bullet {
       type: "Bullet",
       color: "white",
       hitBox: {
-        height: 1,
-        width: 1
+        height: 5,
+        width: 5
       },
       position: {
         x: initX || 150,
