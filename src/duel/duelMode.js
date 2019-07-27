@@ -18,6 +18,9 @@ const KEY = {
 };
 
 let context = null;
+const CANVAS_WIDTH = 840;
+const CANVAS_HEIGHT = 860;
+const FRAMES_PER_MILLISECOND = 17;
 
 class GodDrawDuel extends Component {
   componentDidMount = () => {
@@ -40,7 +43,7 @@ class GodDrawDuel extends Component {
     }, 1000);
     setInterval(() => {
       this.props.dispatch({ type: "NEW_MOVEMENT", projectileFactory });
-    }, 1000);
+    }, FRAMES_PER_MILLISECOND);
   };
 
   componentWillUnmount = () => {
@@ -49,18 +52,33 @@ class GodDrawDuel extends Component {
     window.removeEventListener("resize", this.handleResize);*/
   };
 
+  isItOffScreen = (x, y) => {
+    return x > CANVAS_WIDTH || x < 0 || y > CANVAS_HEIGHT || y < 0;
+  };
+
   updateEntities = () => {
     if (context) {
       context.clearRect(0, 0, 840, 860);
-      this.props.projectiles.forEach(entity => {
-        context.fillStyle = entity.color;
-        context.fillRect(
+      const elementsOffScreen = new Set();
+      this.props.projectiles.forEach((entity, index) => {
+        const isOffScreen = this.isItOffScreen(
           entity.position.x,
-          entity.position.y,
-          entity.hitBox.width,
-          entity.hitBox.height
+          entity.position.y
         );
+        if (!isOffScreen) {
+          context.fillStyle = entity.color;
+          context.fillRect(
+            entity.position.x,
+            entity.position.y,
+            entity.hitBox.width,
+            entity.hitBox.height
+          );
+        } else {
+          elementsOffScreen.add(index);
+        }
       });
+      if (elementsOffScreen.size > 0)
+        this.props.dispatch({ type: "REMOVE_ENTITIES", elementsOffScreen });
     }
   };
 
@@ -69,8 +87,8 @@ class GodDrawDuel extends Component {
     return (
       <div style={{ backgroundColor: "black", width: "100%", height: "100%" }}>
         <canvas
-          width="840"
-          height="860"
+          width={CANVAS_WIDTH}
+          height={CANVAS_HEIGHT}
           style={{
             margin: "auto",
             textAlign: "center",

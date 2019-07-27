@@ -17,6 +17,10 @@ export default (state = [], action) => {
         return newProjectile.state;
       });
       return newState;
+    case "REMOVE_ENTITIES":
+      return state.filter((_, index) => {
+        return !action.elementsOffScreen.has(index);
+      });
     default:
       return state;
   }

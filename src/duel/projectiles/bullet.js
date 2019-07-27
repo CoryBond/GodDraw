@@ -9,7 +9,7 @@ export default class Bullet {
       },
       position: {
         x: initX || 150,
-        y: initY || 20
+        y: initY || 720
       }
     };
   }
@@ -20,7 +20,7 @@ export default class Bullet {
   ) => {
     return {
       x: xBefore + 0,
-      y: yBefore + 1
+      y: yBefore + -1
     };
   };
 }
