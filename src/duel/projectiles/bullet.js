@@ -1,20 +1,26 @@
 export default class Bullet {
-  constructor(name, level) {
-    this.color = "white";
-    this.hitBox = {
-      height: 1,
-      width: 1
-    };
-    this.position = {
-      x: 150,
-      y: 20
+  constructor(state, initX, initY) {
+    this.state = state || {
+      type: "Bullet",
+      color: "white",
+      hitBox: {
+        height: 1,
+        width: 1
+      },
+      position: {
+        x: initX || 150,
+        y: initY || 20
+      }
     };
   }
 
-  pathing = () => {
+  newPathing = (
+    xBefore = this.state.position.x,
+    yBefore = this.state.position.y
+  ) => {
     return {
-      x: 0,
-      y: 1
+      x: xBefore + 0,
+      y: yBefore + 1
     };
   };
 }
